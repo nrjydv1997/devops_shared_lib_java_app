@@ -1,3 +1,4 @@
+@Library('jenkins_shared_lib_java_app') _
 pipeline{
 
     agent any
