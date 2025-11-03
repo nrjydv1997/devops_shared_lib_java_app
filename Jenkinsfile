@@ -7,15 +7,15 @@ pipeline{
         jdk 'jdk17'
     }
 
-    parameters{
-
-        choice(name: 'action',choices: 'create\ndelete',description: 'Choose create/delete')
+    parameters {
+    choice(name: 'action', choices: ['create', 'delete'], description: 'Choose action')
 }
+
 
     
     stages{
         stage('Clean Workspace') {
-            when{ expression { param.action =='create' } }
+            when { expression { params.action == 'create' } }
             steps {
                 echo "🧹 Cleaning workspace before checkout..."
                 cleanWs()  // Jenkins built-in step from Workspace Cleanup Plugin
@@ -23,7 +23,7 @@ pipeline{
         }
         
         stage("Git Checkout"){
-            when{ expression { param.action =='create' } }
+            when { expression { params.action == 'create' } }
             steps{
                 script{
                     gitCheckout(
@@ -36,7 +36,7 @@ pipeline{
         }
 
         stage('MVN Test'){
-            when{ expression { param.action =='create' } }
+            when { expression { params.action == 'create' } }
             steps{
                 script{
                     mvnTest()
@@ -45,7 +45,7 @@ pipeline{
         }
 
         stage('MVN IntegrationTest'){
-            when{ expression { param.action =='create' } }
+            when { expression { params.action == 'create' } }
             steps{
                 script{
                     mvnIntegrationTest()
@@ -54,7 +54,7 @@ pipeline{
         }
 
         stage('Sonar StaticCodeAnalysis'){
-            when{ expression { param.action =='create' } }
+            when { expression { params.action == 'create' } }
             steps{
                 script{
                     staticCodeAnalysis()
