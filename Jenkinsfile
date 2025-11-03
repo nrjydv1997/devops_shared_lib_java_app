@@ -7,6 +7,14 @@ pipeline{
         jdk 'jdk17'
     }
     stages{
+        
+        stage('Clean Workspace') {
+            steps {
+                echo "🧹 Cleaning workspace before checkout..."
+                cleanWs()  // Jenkins built-in step from Workspace Cleanup Plugin
+            }
+        }
+
         stage("Git Checkout"){
             steps{
                 script{
