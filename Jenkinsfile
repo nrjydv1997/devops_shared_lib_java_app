@@ -9,9 +9,9 @@ pipeline{
 
     parameters {
     choice(name: 'action', choices: ['create', 'delete'], description: 'Choose action')
-    string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javaApp')
+    string(name: 'Project', description: "name of the docker build", defaultValue: 'javaApp')
     string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
-    string(name: 'AppName', description: "app name of the docker build", defaultValue: 'apringboot')
+    string(name: 'HubUser', description: "app name of the docker build", defaultValue: 'nrjydv1997')
 }
 
 
@@ -89,7 +89,7 @@ pipeline{
             when { expression { params.action == 'create' } }
             steps{
                 script{
-                    dockerBuild("${params.ImageName}", "${params.ImageTag}", "${params.AppName}")
+                    dockerBuild("${params.Project}", "${params.ImageTag}", "${params.HubUser}")
                 }
             }
         }
