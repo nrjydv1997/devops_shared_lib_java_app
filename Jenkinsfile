@@ -72,5 +72,14 @@ pipeline{
                 }
             }
         }
+
+        stage('MVN Build'){
+            when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    mvnBuild()
+                }
+            }
+        }
     }
 }
