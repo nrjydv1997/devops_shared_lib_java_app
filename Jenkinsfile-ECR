@@ -88,7 +88,34 @@ pipeline{
         stage('Docker Image Build : ECR'){
             when { expression { params.action == 'create' } }
             steps{
-                dockerBuildEcr("${params.aws_account_id}",${params.region}",${params.ecrRepoName}")
+                dockerBuildEcr("${params.aws_account_id}","${params.region}","${params.ecrRepoName}")
+            }
+        }
+
+        stage("Docker Image Scan"){
+            when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    dockerImageScanEcr("${params.aws_account_id}","${params.region}","${params.ecrRepoName}")
+                }
+            }
+        }
+
+        stage("Docker Image Push ecr"){
+            when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    dockerImagePushEcr("${params.aws_account_id}","${params.region}","${params.ecrRepoName}")
+                }
+            }
+        }
+
+        stage("Docker Image Cleanup"){
+            when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    dockerImageCleanup("${params.aws_account_id}","${params.region}","${params.ecrRepoName}")
+                }
             }
         }
     }
