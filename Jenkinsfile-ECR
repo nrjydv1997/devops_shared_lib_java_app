@@ -85,40 +85,6 @@ pipeline{
             }
         }
 
-        stage('Docker Build'){
-            when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    dockerBuild("${params.Project}", "${params.ImageTag}", "${params.HubUser}")
-                }
-            }
-        }
-
-        stage('Docker image scan'){
-            when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    dockerImageScan("${params.Project}", "${params.ImageTag}", "${params.HubUser}")
-                }
-            }
-        }
          
-        stage("Docker Image Push"){
-            when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    dockerImagePush("${params.Project}", "${params.ImageTag}", "${params.HubUser}")
-                }
-            }
-        }
-
-        stage("Docker Image Cleanup"){
-            when { expression { params.action == 'create' } }
-            steps{
-                script{
-                    dockerImageCleanup("${params.Project}", "${params.ImageTag}", "${params.HubUser}")
-                }
-            }
-        }
     }
 }
