@@ -55,7 +55,7 @@ pipeline{
                 }
             }
         }
-
+/*
         stage('Sonar StaticCodeAnalysis'){
             when { expression { params.action == 'create' } }
             steps{
@@ -75,7 +75,7 @@ pipeline{
                 }
             }
         }
-
+*/
         stage('MVN Build'){
             when { expression { params.action == 'create' } }
             steps{
