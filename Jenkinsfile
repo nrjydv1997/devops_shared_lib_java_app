@@ -105,7 +105,7 @@ pipeline{
          
         stage("Docker Image Push"){
             when { expression { params.action == 'create' } }
-            step{
+            steps{
                 script{
                     dockerImagePush("${params.Project}", "${params.ImageTag}", "${params.HubUser}")
                 }
