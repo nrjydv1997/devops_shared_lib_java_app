@@ -12,6 +12,7 @@ pipeline{
     string(name: 'aws_account_id', description: "account id of aws", defaultValue: '365458640688')
     string(name: 'region', description: "Region of image ", defaultValue: 'ap-south-1')
     string(name: 'ecrRepoName', description: "aws Repo name", defaultValue: 'jenkins_shared_lib_java_app')
+    string(name: 'eksClusterName', description: "aws eks cluster name", defaultValue: 'my-eks-cluster')
 }
 
 
@@ -115,6 +116,15 @@ pipeline{
             steps{
                 script{
                     dockerImageCleanupEcr("${params.aws_account_id}","${params.region}","${params.ecrRepoName}")
+                }
+            }
+        }
+
+        stage("Eks connect"){
+            when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    eksConnect("${params.aws_account_id}","${params.region}","${params.ecrRepoName}","${params.eksClusterName}")
                 }
             }
         }
