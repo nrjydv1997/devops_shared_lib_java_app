@@ -128,5 +128,27 @@ pipeline{
                 }
             }
         }
+
+        stage('Deploy App on EKS'){
+            steps{
+                script{
+                    def apply = false
+
+                    try{
+                        input message: 'Please confirm to deploy on eks', ok: 'Ready to apply the config ?'
+                        apply = true
+                    }catch(err){
+                        apply = false
+                        currentBuild.result = 'UNSTABLE'
+                    }
+
+                    if(apply){
+                        sh """
+                            kubectl apply -f .
+                        """
+                    }
+                }
+            }
+        }
     }
 }
